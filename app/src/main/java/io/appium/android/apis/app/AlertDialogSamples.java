@@ -37,13 +37,13 @@ import io.appium.android.apis.R;
 /**
  * Example of how to use an {@link android.app.AlertDialog}.
  * <h3>AlertDialogSamples</h3>
-
-<p>This demonstrates the different ways the AlertDialog can be used.</p>
-
-<h4>Demo</h4>
-App/Dialog/Alert Dialog
- 
-<h4>Source files</h4>
+ *
+ * <p>This demonstrates the different ways the AlertDialog can be used.</p>
+ *
+ * <h4>Demo</h4>
+ * App/Dialog/Alert Dialog
+ * <p>
+ * h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
  *             <td >src/io.appium.android.apis/app/AlertDialogSamples.java</td>
@@ -53,7 +53,7 @@ App/Dialog/Alert Dialog
  *             <td >/res/any/layout/alert_dialog.xml</td>
  *             <td >Defines contents of the screen</td>
  *         </tr>
- * </table> 
+ * </table>
  */
 public class AlertDialogSamples extends Activity {
     private static final int DIALOG_YES_NO_MESSAGE = 1;
@@ -69,237 +69,249 @@ public class AlertDialogSamples extends Activity {
     private static final int DIALOG_YES_NO_HOLO_LIGHT_MESSAGE = 11;
 
     private static final int MAX_PROGRESS = 100;
-    
+
     private ProgressDialog mProgressDialog;
     private int mProgress;
     private Handler mProgressHandler;
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
+    private void showAlertDialog(int id) {
+        Dialog dialog = null;
         switch (id) {
-        case DIALOG_YES_NO_MESSAGE:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_two_buttons_title)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+            case DIALOG_YES_NO_MESSAGE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_two_buttons_title)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        /* User clicked OK so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Cancel so do some stuff */
-                    }
-                })
-                .create();
-        case DIALOG_YES_NO_OLD_SCHOOL_MESSAGE:
-            return new AlertDialog.Builder(AlertDialogSamples.this, AlertDialog.THEME_TRADITIONAL)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_two_buttons_title)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                })
-                .create();
-        case DIALOG_YES_NO_HOLO_LIGHT_MESSAGE:
-            return new AlertDialog.Builder(AlertDialogSamples.this, AlertDialog.THEME_HOLO_LIGHT)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_two_buttons_title)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                })
-                .create();
-        case DIALOG_YES_NO_LONG_MESSAGE:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_two_buttons_msg)
-                .setMessage(R.string.alert_dialog_two_buttons2_msg)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-    
-                        /* User clicked OK so do some stuff */
-                    }
-                })
-                .setNeutralButton(R.string.alert_dialog_something, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Something so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Cancel so do some stuff */
-                    }
-                })
-                .create();
-        case DIALOG_YES_NO_ULTRA_LONG_MESSAGE:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_two_buttons_msg)
-                .setMessage(R.string.alert_dialog_two_buttons2ultra_msg)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked OK so do some stuff */
-                    }
-                })
-                .setNeutralButton(R.string.alert_dialog_something, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Something so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Cancel so do some stuff */
-                    }
-                })
-                .create();
-        case DIALOG_LIST:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setTitle(R.string.select_dialog)
-                .setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        /* User clicked so do some stuff */
-                        String[] items = getResources().getStringArray(R.array.select_dialog_items);
-                        new AlertDialog.Builder(AlertDialogSamples.this)
-                                .setMessage("You selected: " + which + " , " + items[which])
-                                .show();
-                    }
-                })
-                .create();
-        case DIALOG_PROGRESS:
-            mProgressDialog = new ProgressDialog(AlertDialogSamples.this);
-            mProgressDialog.setIconAttribute(android.R.attr.alertDialogIcon);
-            mProgressDialog.setTitle(R.string.select_dialog);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.setMax(MAX_PROGRESS);
-            mProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE,
-                    getText(R.string.alert_dialog_hide), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                    /* User clicked Yes so do some stuff */
-                }
-            });
-            mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                    getText(R.string.alert_dialog_cancel), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                    /* User clicked No so do some stuff */
-                }
-            });
-            return mProgressDialog;
-        case DIALOG_SINGLE_CHOICE:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_single_choice)
-                .setSingleChoiceItems(R.array.select_dialog_items2, 0, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked on a radio button do some stuff */
-                    }
-                })
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked Yes so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        /* User clicked No so do some stuff */
-                    }
-                })
-               .create();
-        case DIALOG_MULTIPLE_CHOICE:
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIcon(R.drawable.ic_popup_reminder)
-                .setTitle(R.string.alert_dialog_multi_choice)
-                .setMultiChoiceItems(R.array.select_dialog_items3,
-                        new boolean[]{false, true, false, true, false, false, false},
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton,
-                                    boolean isChecked) {
-
-                                /* User clicked on a check box do some stuff */
+                                /* User clicked OK so do some stuff */
                             }
                         })
-                .setPositiveButton(R.string.alert_dialog_ok,
-                        new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        /* User clicked Yes so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel,
-                        new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                                /* User clicked Cancel so do some stuff */
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_YES_NO_OLD_SCHOOL_MESSAGE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this, AlertDialog.THEME_TRADITIONAL)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_two_buttons_title)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_YES_NO_HOLO_LIGHT_MESSAGE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this, AlertDialog.THEME_HOLO_LIGHT)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_two_buttons_title)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_YES_NO_LONG_MESSAGE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_two_buttons_msg)
+                        .setMessage(R.string.alert_dialog_two_buttons2_msg)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        /* User clicked No so do some stuff */
-                    }
-                })
-               .create();
+                                /* User clicked OK so do some stuff */
+                            }
+                        })
+                        .setNeutralButton(R.string.alert_dialog_something, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Something so do some stuff */
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Cancel so do some stuff */
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_YES_NO_ULTRA_LONG_MESSAGE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_two_buttons_msg)
+                        .setMessage(R.string.alert_dialog_two_buttons2ultra_msg)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked OK so do some stuff */
+                            }
+                        })
+                        .setNeutralButton(R.string.alert_dialog_something, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Something so do some stuff */
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Cancel so do some stuff */
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_LIST:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setTitle(R.string.select_dialog)
+                        .setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                /* User clicked so do some stuff */
+                                String[] items = getResources().getStringArray(R.array.select_dialog_items);
+                                new AlertDialog.Builder(AlertDialogSamples.this)
+                                        .setMessage("You selected: " + which + " , " + items[which])
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_PROGRESS:
+                mProgressDialog = new ProgressDialog(AlertDialogSamples.this);
+                mProgressDialog.setIconAttribute(android.R.attr.alertDialogIcon);
+                mProgressDialog.setTitle(R.string.select_dialog);
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mProgressDialog.setMax(MAX_PROGRESS);
+                mProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+                        getText(R.string.alert_dialog_hide), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Yes so do some stuff */
+                            }
+                        });
+                mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                        getText(R.string.alert_dialog_cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked No so do some stuff */
+                            }
+                        });
+                dialog = mProgressDialog;
+                break;
+            case DIALOG_SINGLE_CHOICE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_single_choice)
+                        .setSingleChoiceItems(R.array.select_dialog_items2, 0, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked on a radio button do some stuff */
+                            }
+                        })
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked Yes so do some stuff */
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked No so do some stuff */
+                            }
+                        })
+                        .create();
+                break;
+            case DIALOG_MULTIPLE_CHOICE:
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIcon(R.drawable.ic_popup_reminder)
+                        .setTitle(R.string.alert_dialog_multi_choice)
+                        .setMultiChoiceItems(R.array.select_dialog_items3,
+                                new boolean[]{false, true, false, true, false, false, false},
+                                new DialogInterface.OnMultiChoiceClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton,
+                                                        boolean isChecked) {
+
+                                        /* User clicked on a check box do some stuff */
+                                    }
+                                })
+                        .setPositiveButton(R.string.alert_dialog_ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        /* User clicked Yes so do some stuff */
+                                    }
+                                })
+                        .setNegativeButton(R.string.alert_dialog_cancel,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        /* User clicked No so do some stuff */
+                                    }
+                                })
+                        .create();
+                break;
             case DIALOG_MULTIPLE_CHOICE_CURSOR:
-                String[] projection = new String[] {
+                String[] projection = new String[]{
                         ContactsContract.Contacts._ID,
                         ContactsContract.Contacts.DISPLAY_NAME,
                         ContactsContract.Contacts.SEND_TO_VOICEMAIL
                 };
                 Cursor cursor = managedQuery(ContactsContract.Contacts.CONTENT_URI,
                         projection, null, null, null);
-                return new AlertDialog.Builder(AlertDialogSamples.this)
-                    .setIcon(R.drawable.ic_popup_reminder)
-                    .setTitle(R.string.alert_dialog_multi_choice_cursor)
-                    .setMultiChoiceItems(cursor,
-                            ContactsContract.Contacts.SEND_TO_VOICEMAIL,
-                            ContactsContract.Contacts.DISPLAY_NAME,
-                            new DialogInterface.OnMultiChoiceClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton,
-                                        boolean isChecked) {
-                                    Toast.makeText(AlertDialogSamples.this,
-                                            "Readonly Demo Only - Data will not be updated",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                   .create();
-        case DIALOG_TEXT_ENTRY:
-            // This example shows how to add a custom layout to an AlertDialog
-            LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
-            return new AlertDialog.Builder(AlertDialogSamples.this)
-                .setIconAttribute(android.R.attr.alertDialogIcon)
-                .setTitle(R.string.alert_dialog_text_entry)
-                .setView(textEntryView)
-                .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-    
-                        /* User clicked OK so do some stuff */
-                    }
-                })
-                .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIcon(R.drawable.ic_popup_reminder)
+                        .setTitle(R.string.alert_dialog_multi_choice_cursor)
+                        .setMultiChoiceItems(cursor,
+                                ContactsContract.Contacts.SEND_TO_VOICEMAIL,
+                                ContactsContract.Contacts.DISPLAY_NAME,
+                                new DialogInterface.OnMultiChoiceClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton,
+                                                        boolean isChecked) {
+                                        Toast.makeText(AlertDialogSamples.this,
+                                                "Readonly Demo Only - Data will not be updated",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                        .create();
+                break;
+            case DIALOG_TEXT_ENTRY:
+                // This example shows how to add a custom layout to an AlertDialog
+                LayoutInflater factory = LayoutInflater.from(this);
+                final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
+                dialog = new AlertDialog.Builder(AlertDialogSamples.this)
+                        .setIconAttribute(android.R.attr.alertDialogIcon)
+                        .setTitle(R.string.alert_dialog_text_entry)
+                        .setView(textEntryView)
+                        .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        /* User clicked cancel so do some stuff */
-                    }
-                })
-                .create();
+                                /* User clicked OK so do some stuff */
+                            }
+                        })
+                        .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                /* User clicked cancel so do some stuff */
+                            }
+                        })
+                        .create();
+                break;
         }
-        return null;
+        if (dialog != null)
+            dialog.show();
     }
 
     /**
@@ -308,33 +320,33 @@ public class AlertDialogSamples extends Activity {
      * describe what is to be displayed in the screen.
      */
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.alert_dialog);
-                
+
         /* Display a text message with yes/no buttons and handle each message as well as the cancel action */
         Button twoButtonsTitle = (Button) findViewById(R.id.two_buttons);
         twoButtonsTitle.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_YES_NO_MESSAGE);
+                showAlertDialog(DIALOG_YES_NO_MESSAGE);
             }
         });
-        
+
         /* Display a long text message with yes/no buttons and handle each message as well as the cancel action */
         Button twoButtons2Title = (Button) findViewById(R.id.two_buttons2);
         twoButtons2Title.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_YES_NO_LONG_MESSAGE);
+                showAlertDialog(DIALOG_YES_NO_LONG_MESSAGE);
             }
         });
-        
-        
+
+
         /* Display an ultra long text message with yes/no buttons and handle each message as well as the cancel action */
         Button twoButtons2UltraTitle = (Button) findViewById(R.id.two_buttons2ultra);
         twoButtons2UltraTitle.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_YES_NO_ULTRA_LONG_MESSAGE);
+                showAlertDialog(DIALOG_YES_NO_ULTRA_LONG_MESSAGE);
             }
         });
 
@@ -343,42 +355,42 @@ public class AlertDialogSamples extends Activity {
         Button selectButton = (Button) findViewById(R.id.select_button);
         selectButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_LIST);
+                showAlertDialog(DIALOG_LIST);
             }
         });
-        
+
         /* Display a custom progress bar */
         Button progressButton = (Button) findViewById(R.id.progress_button);
         progressButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_PROGRESS);
+                showAlertDialog(DIALOG_PROGRESS);
                 mProgress = 0;
                 mProgressDialog.setProgress(0);
                 mProgressHandler.sendEmptyMessage(0);
             }
         });
-        
+
         /* Display a radio button group */
         Button radioButton = (Button) findViewById(R.id.radio_button);
         radioButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_SINGLE_CHOICE);
+                showAlertDialog(DIALOG_SINGLE_CHOICE);
             }
         });
-        
+
         /* Display a list of checkboxes */
         Button checkBox = (Button) findViewById(R.id.checkbox_button);
         checkBox.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_MULTIPLE_CHOICE);
+                showAlertDialog(DIALOG_MULTIPLE_CHOICE);
             }
         });
-        
+
         /* Display a list of checkboxes, backed by a cursor */
         Button checkBox2 = (Button) findViewById(R.id.checkbox_button2);
         checkBox2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_MULTIPLE_CHOICE_CURSOR);
+                showAlertDialog(DIALOG_MULTIPLE_CHOICE_CURSOR);
             }
         });
 
@@ -386,26 +398,26 @@ public class AlertDialogSamples extends Activity {
         Button textEntry = (Button) findViewById(R.id.text_entry_button);
         textEntry.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_TEXT_ENTRY);
+                showAlertDialog(DIALOG_TEXT_ENTRY);
             }
         });
-        
+
         /* Two points, in the traditional theme */
         Button twoButtonsOldSchoolTitle = (Button) findViewById(R.id.two_buttons_old_school);
         twoButtonsOldSchoolTitle.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_YES_NO_OLD_SCHOOL_MESSAGE);
+                showAlertDialog(DIALOG_YES_NO_OLD_SCHOOL_MESSAGE);
             }
         });
-        
+
         /* Two points, in the light holographic theme */
         Button twoButtonsHoloLightTitle = (Button) findViewById(R.id.two_buttons_holo_light);
         twoButtonsHoloLightTitle.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                showDialog(DIALOG_YES_NO_HOLO_LIGHT_MESSAGE);
+                showAlertDialog(DIALOG_YES_NO_HOLO_LIGHT_MESSAGE);
             }
         });
-        
+
         mProgressHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
